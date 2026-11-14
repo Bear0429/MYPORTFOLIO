@@ -1,0 +1,162 @@
+/* Small, independent layers keep pointer motion separate from petal drift. */
+.hero-content, .hero-bottom {
+  position: relative;
+  z-index: 1;
+}
+.hero-petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  contain: layout style;
+}
+.petal-track {
+  position: absolute;
+  left: 12%;
+  top: 22%;
+  --depth: .7;
+  transform: translate3d(calc(var(--pointer-x, 0px) * var(--depth)), calc(var(--pointer-y, 0px) * var(--depth)), 0);
+  transition: transform 800ms cubic-bezier(.2,.7,.3,1);
+}
+.petal {
+  display: block;
+  width: 10px;
+  height: 17px;
+  border-radius: 80% 15% 75% 25%;
+  background: #cd8b9e;
+  opacity: .45;
+  transform: rotate(28deg);
+}
+.petal-track:nth-child(2) { left: 23%; top: 69%; --depth: 1; }
+.petal-track:nth-child(3) { left: 8%; top: 79%; --depth: .5; }
+.petal-track:nth-child(4) { left: 87%; top: 21%; --depth: .8; }
+.petal-track:nth-child(5) { left: 92%; top: 66%; --depth: 1.2; }
+.petal-track:nth-child(6) { left: 78%; top: 81%; --depth: .6; }
+.petal-track:nth-child(2n) .petal { width: 7px; height: 12px; opacity: .3; }
+.hero-star {
+  position: absolute;
+  z-index: 2;
+  top: 37%;
+  right: 14%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: transparent;
+  color: #b56c82;
+  border-radius: 50%;
+}
+.hero-star > svg {
+  width: 30px;
+  height: 30px;
+  stroke-width: 1.1;
+  fill: #edc7d3;
+  transition: fill 250ms, transform 350ms;
+}
+.hero-star:is(:hover, :focus-visible) > svg { transform: rotate(15deg) scale(1.12); fill: #dca2b4; }
+.hero-star.is-lit > svg { fill: #bd6c86; }
+.star-burst { position: absolute; inset: 0; pointer-events: none; }
+.star-burst > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  background: #ba6580;
+  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+  opacity: 0;
+  --burst-x: -30px;
+  --burst-y: -24px;
+}
+.star-burst > span:nth-child(2) { --burst-x: 30px; --burst-y: -20px; }
+.star-burst > span:nth-child(3) { --burst-x: 26px; --burst-y: 27px; }
+.star-burst > span:nth-child(4) { --burst-x: -24px; --burst-y: 29px; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.cover-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 19px;
+  background: #382730e6;
+  text-align: left;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 250ms, transform 350ms;
+  pointer-events: none;
+}
+.cover-caption strong { display: block; font-size: 13px; font-weight: 500; overflow-wrap: anywhere; }
+.cover-caption > span { display: block; font-size: 9px; color: #f3dce5; margin-top: 4px; }
+.cover-button { transition: transform 400ms cubic-bezier(.2,.7,.3,1); }
+.cover-button:focus-visible .cover-caption { opacity: 1; transform: none; }
+.cover-button:focus-visible .cover-index { opacity: 0; }
+.cover-button:focus-visible .play-icon { background: var(--rose); }
+.player-actions { display: flex; gap: 3px; }
+.player-actions button:disabled { opacity: .35; cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover .cover-button { transform: translateY(-3px) scale(1.012); }
+  .cover-button:hover .cover-caption { opacity: 1; transform: none; }
+  .cover-button:hover .cover-index { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content > * { animation: hero-arrive 800ms cubic-bezier(.2,.7,.3,1) backwards; }
+  .hero-content > .eyebrow { animation-delay: 40ms; }
+  .hero-content > h1 { animation-delay: 130ms; }
+  .hero-content > .hero-subtitle { animation-delay: 260ms; }
+  .hero-content > .hero-intro { animation-delay: 350ms; }
+  .hero-content > .button { animation-delay: 440ms; }
+  .hero-bottom { animation: hero-arrive 800ms 550ms backwards; }
+  .petal { animation: petal-drift 10s ease-in-out infinite alternate; }
+  .petal-track:nth-child(2) .petal { animation-duration: 13s; animation-delay: -4s; }
+  .petal-track:nth-child(3) .petal { animation-duration: 11s; animation-delay: -7s; }
+  .petal-track:nth-child(4) .petal { animation-duration: 14s; animation-delay: -2s; }
+  .petal-track:nth-child(5) .petal { animation-duration: 12s; animation-delay: -6s; }
+  .petal-track:nth-child(6) .petal { animation-duration: 15s; animation-delay: -10s; }
+  .motion-paused .petal { animation-play-state: paused; }
+  .hero-star.is-lit .star-burst > span { animation: star-scatter 800ms cubic-bezier(.2,.7,.3,1) both; }
+  .reveal { transition: opacity 700ms cubic-bezier(.2,.7,.3,1), transform 700ms cubic-bezier(.2,.7,.3,1); transition-delay: var(--reveal-delay, 0ms); }
+  .player-dialog[open], .notice-dialog[open] { animation: dialog-arrive 240ms cubic-bezier(.2,.7,.3,1); }
+  @media (min-width: 641px) {
+    .work-card:nth-child(2n) { --reveal-delay: 100ms; }
+  }
+}
+@keyframes hero-arrive {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes petal-drift {
+  from { transform: translate3d(-5px, -9px, 0) rotate(12deg); }
+  to { transform: translate3d(9px, 13px, 0) rotate(48deg); }
+}
+@keyframes star-scatter {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.3); }
+  25% { opacity: .8; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) rotate(35deg) scale(.6); }
+}
+@keyframes dialog-arrive {
+  from { opacity: 0; transform: translateY(8px) scale(.99); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 640px) {
+  .hero-star { top: 20px; right: 16px; width: 44px; height: 44px; }
+  .hero-star > svg { width: 25px; height: 25px; }
+  .petal-track:nth-child(1) { left: 4%; top: 18%; }
+  .petal-track:nth-child(4) { left: 92%; top: 58%; }
+  .petal-track:nth-child(2), .petal-track:nth-child(5), .petal-track:nth-child(6) { display: none; }
+  .cover-caption { padding: 12px 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .petal-track, .cover-caption, .cover-button, .hero-star > svg { transition: none; }
+  .hero-star:is(:hover, :focus-visible) > svg, .work-card:hover .cover-button { transform: none; }
+  .hero-petals { display: none; }
+}
