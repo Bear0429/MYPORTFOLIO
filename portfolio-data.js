@@ -22,7 +22,8 @@ window.PORTFOLIO = {
   // 为已有本地作品库追加这批作品；批次只应用一次，保留编辑与删除。
   bundledImports: [
     { id: "beat-2026-11-14", workIds: ["beat-01", "beat-02"] },
-    { id: "information-2026-11-14-02", workIds: ["information-02"] }
+    { id: "information-2026-11-14-02", workIds: ["information-02"] },
+    { id: "ai-2026-11-16", workIds: ["ai-03", "ai-04"] }
   ],
   // 复制对象添加作品；id 唯一，category 对应上面的分类 id。
   // video 填 MP4 / WebM 直链或本地路径，不填网页播放页。
@@ -69,6 +70,20 @@ window.PORTFOLIO = {
       cover: "assets/ai-02.jpg", videoPoster: "assets/ai-02.jpg",
       video: "assets/ai-02.mp4", aspectRatio: "16 / 9", portrait: false,
       tags: ["AI 类"], software: [], demo: false
+    },
+    {
+      id: "ai-03", category: "ai", title: "CKY 香水林间广告片",
+      subtitle: "AI 类 · 00:15", description: "[作品简介待填写]",
+      cover: "assets/ai-03.jpg", videoPoster: "assets/ai-03.jpg",
+      video: "assets/ai-03.mp4", aspectRatio: "9 / 16", portrait: true, duration: 15.071995,
+      videoName: "CKY香水林间广告片.mp4", tags: ["AI 类"], software: [], demo: false
+    },
+    {
+      id: "ai-04", category: "ai", title: "AI 作品 04",
+      subtitle: "AI 类 · 00:15", description: "[作品简介待填写]",
+      cover: "assets/ai-04.jpg", videoPoster: "assets/ai-04.jpg",
+      video: "assets/ai-04.mp4", aspectRatio: "9 / 16", portrait: true, duration: 15.071995,
+      videoName: "9736ea869ed04135ba5f1de51a21e69d.mp4", tags: ["AI 类"], software: [], demo: false
     },
     {
       id: "beat-01", category: "beat", title: "卡点作品 01",
